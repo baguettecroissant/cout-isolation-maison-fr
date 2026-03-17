@@ -14,11 +14,11 @@ export async function generateSitemaps() {
     ];
 }
 
-export default async function sitemap({
-    id,
-}: {
-    id: number;
+export default async function sitemap(props: {
+    id: Promise<string> | string | number;
 }): Promise<MetadataRoute.Sitemap> {
+    const rawId = await Promise.resolve(props.id);
+    const id = Number(rawId);
     const departments = getAllDepartments();
 
     if (id === 0) {
