@@ -10,7 +10,7 @@ export async function generateSitemaps() {
     const departments = getAllDepartments();
     return [
         { id: 0 },
-        ...departments.map((d, i) => ({ id: i + 1 })),
+        ...departments.map((_, i) => ({ id: i + 1 })),
     ];
 }
 
@@ -46,20 +46,24 @@ export default async function sitemap({
             priority: 0.7,
         }));
 
-        const deptPages: MetadataRoute.Sitemap = departments.map(d => ({
-            url: `${BASE_URL}/annuaire/${d.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '')}-${d.code}`,
-            lastModified: new Date(),
-            changeFrequency: 'monthly',
-            priority: 0.6,
-        }));
+        const deptPages: MetadataRoute.Sitemap = departments
+            .filter(d => d && d.code && d.name)
+            .map(d => ({
+                url: `${BASE_URL}/annuaire/${d.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '')}-${d.code}`,
+                lastModified: new Date(),
+                changeFrequency: 'monthly' as const,
+                priority: 0.6,
+            }));
 
         return [...staticPages, ...guidePages, ...brandPages, ...deptPages];
     }
 
     const deptIndex = id - 1;
-    if (deptIndex < 0 || deptIndex >= departments.length) return [];
-
     const dept = departments[deptIndex];
+
+    // Safety: if dept is undefined or missing code, return empty
+    if (!dept || !dept.code) return [];
+
     const deptCities = getCitiesByDepartment(dept.code);
     const sortedCities = [...deptCities].sort(
         (a, b) => (b.population || 0) - (a.population || 0)
