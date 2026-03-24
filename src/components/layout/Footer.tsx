@@ -60,12 +60,6 @@ export function Footer() {
                     </div>
                 </div>
 
-                {/* Cross-linking */}
-                <div className="mt-10 pt-8 border-t border-emerald-700">
-                    <p className="text-emerald-500 text-xs text-center">
-                        Voir aussi : <Link href="https://www.cout-chauffage-energie.fr" className="text-emerald-400 hover:text-teal-300 transition-colors">Isoler d&apos;abord, chauffer ensuite</Link> · <Link href="https://www.prix-fenetre-menuiserie.fr" className="text-emerald-400 hover:text-teal-300 transition-colors">Fenêtres isolantes</Link> · <Link href="https://www.ta-pompe-a-chaleur.fr" className="text-emerald-400 hover:text-teal-300 transition-colors">Isolation + PAC = combo gagnant</Link>
-                    </p>
-                </div>
             </div>
 
             {/* Bottom bar */}
